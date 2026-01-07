@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block title %}Terms of Service - InnovateGuide{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/legal.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="legal-page">
+  <div class="container">
+
+    <h1>Terms of Service</h1>
+    <p class="effective-date"><strong>Effective Date:</strong> [Add Date]</p>
+
+    <p>
+      Welcome to InnovateGuide. By accessing or using our platform, you agree to comply
+      with the following Terms of Service. Please read them carefully.
+    </p>
+
+    <!-- 1 -->
+    <h2>1. Platform Overview</h2>
+    <p>
+      InnovateGuide is a marketplace where students and developers can buy, sell,
+      and explore IT projects for educational and learning purposes.
+    </p>
+
+    <!-- 2 -->
+    <h2>2. User Eligibility</h2>
+    <p>To use InnovateGuide, you agree that:</p>
+    <ul>
+      <li>You are at least 18 years old or have parental/guardian consent</li>
+      <li>You provide accurate, complete, and up-to-date information</li>
+      <li>You are responsible for maintaining the confidentiality of your account</li>
+    </ul>
+
+    <!-- 3 -->
+    <h2>3. User Responsibilities</h2>
+    <p>Users agree:</p>
+    <ul>
+      <li>Not to upload plagiarized, copyrighted, or illegal content</li>
+      <li>Not to misuse the platform for fraud, scams, or misleading activities</li>
+      <li>Not to upload malware, viruses, or harmful code</li>
+      <li>To submit genuine, original, and lawful projects only</li>
+    </ul>
+
+    <!-- 4 -->
+    <h2>4. Project Ownership & Licensing</h2>
+    <ul>
+      <li>Sellers retain ownership of the projects they upload</li>
+      <li>Buyers receive usage rights as specified in the project details</li>
+      <li>Redistribution, resale, or reuse without permission is strictly prohibited</li>
+    </ul>
+
+    <!-- 5 -->
+    <h2>5. Payments & Pricing</h2>
+    <ul>
+      <li>All project prices are clearly displayed on the platform</li>
+      <li>Payments are processed through secure third-party payment gateways</li>
+      <li>InnovateGuide may charge a platform or service fee</li>
+      <li>Refunds (if applicable) are subject to InnovateGuide’s refund policies</li>
+    </ul>
+
+    <!-- 6 -->
+    <h2>6. Content Moderation</h2>
+    <p>InnovateGuide reserves the right to:</p>
+    <ul>
+      <li>Review, approve, reject, or remove any project or content</li>
+      <li>Suspend or terminate accounts violating these terms</li>
+      <li>Modify or discontinue any service without prior notice</li>
+    </ul>
+
+    <!-- Info Box -->
+    <div class="legal-info-box">
+      InnovateGuide acts as a platform facilitator and does not guarantee academic,
+      commercial, or technical outcomes from purchased projects.
+    </div>
+
+    <!-- 7 -->
+    <h2>7. Limitation of Liability</h2>
+    <p>InnovateGuide is not responsible for:</p>
+    <ul>
+      <li>Project outcomes, grades, or academic results</li>
+      <li>Technical issues arising from downloaded projects</li>
+      <li>Disputes between buyers and sellers</li>
+    </ul>
+    <p>
+      All projects and services are provided on an <strong>“as is”</strong> basis.
+    </p>
+
+    <!-- 8 -->
+    <h2>8. Termination</h2>
+    <p>We may suspend or terminate access if:</p>
+    <ul>
+      <li>These Terms of Service are violated</li>
+      <li>Fraudulent or unethical behavior is detected</li>
+      <li>Legal or regulatory compliance requires action</li>
+    </ul>
+
+    <!-- 9 -->
+    <h2>9. Changes to Terms</h2>
+    <p>
+      We may update these Terms of Service at any time.
+      Continued use of the platform implies acceptance of the updated terms.
+    </p>
+
+    <!-- 10 -->
+    <h2>10. Governing Law</h2>
+    <p>
+      These Terms of Service shall be governed by and interpreted
+      in accordance with the laws of <strong>India</strong>.
+    </p>
+
+    <!-- 11 -->
+    <h2>11. Contact Information</h2>
+    <p>
+      For questions or concerns regarding these Terms:<br>
+      <strong>Email:</strong> support@innovateguide.com
+    </p>
+
+    <div class="legal-footer-note">
+      © InnovateGuide • All Rights Reserved
+    </div>
+
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}InnovateGuide - Project Innovation Partner{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block styles %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+<!-- BEGIN HEADER -->
+<header class="header">
+  <div class="container">
+    <a href="{{ url_for('index') }}" class="logo">
+      <img src="{{ url_for('static', filename='images/IG_LOGO.png') }}" alt="Logo">
+      <h1>InnovateGuide</h1>
+    </a>
+
+    <button class="hamburger" aria-label="Toggle navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav class="nav">
+      <ul>
+        <li><a href="{{ url_for('index') }}">Home</a></li>
+        <li><a href="/#about-us">About Us</a></li>
+        <li><a href="/#trending-projects">Trending Projects</a></li>
+        <li><a href="/#categories">Categories</a></li>
+        <li><a href="{{ url_for('sell_your_project') }}">Custom Project</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<!-- END HEADER -->
+
+{% block content %}{% endblock %}
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+
+    <div class="footer-content">
+
+      <div class="footer-logo">
+        <img src="{{ url_for('static', filename='images/IG_LOGO.png') }}" alt="Logo">
+        <h2>InnovateGuide</h2>
+        <p>Project Innovation Partner</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="{{ url_for('index') }}#trending-projects">Trending Projects</a></li>
+          <li><a href="{{ url_for('index') }}#new-projects">New Projects</a></li>
+          <li><a href="{{ url_for('index') }}#categories">Categories</a></li>
+          <li><a href="{{ url_for('index') }}#top-selling">Top Selling</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="{{ url_for('index') }}#custom-project">Custom Project</a></li>
+          <li><a href="{{ url_for('sell_your_project') }}">Sell Your Project</a></li>
+          <li><a href="{{ url_for('how_it_works') }}">How It Works</a></li>
+          <li><a href="{{ url_for('faq') }}">FAQ</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="{{ url_for('about') }}">About Us</a></li>
+          <li><a href="{{ url_for('contact') }}">Contact</a></li>
+          <li><a href="{{ url_for('privacy_policy') }}">Privacy Policy</a></li>
+          <li><a href="{{ url_for('terms_of_service') }}">Terms of Service</a></li>
+
+        </ul>
+      </div>
+
+      <div class="footer-social">
+        <h4>Find Us On</h4>
+        <div class="social-icons">
+          <a href="https://www.instagram.com/innovate.guide?igsh=MThwb2xtMTBzanNjeQ==" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.youtube.com/@InnovateGuide" target="_blank"><i class="fab fa-youtube"></i></a>
+          <a href="https://wa.me/918767555945" target="_blank"><i class="fab fa-whatsapp"></i></a>
+          </div>
+      </div>
+
+    </div>
+
+    <div class="footer-divider"></div>
+
+    <div class="footer-bottom">
+      <p>© 2023 InnovateGuide. All rights reserved.</p>
+    </div>
+
+  </div>
+</footer>
+
+{% block scripts %}{% endblock %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const hamburger = document.querySelector('.hamburger');
+    const nav = document.querySelector('.nav');
+
+    hamburger.addEventListener('click', function() {
+        hamburger.classList.toggle('active');
+        nav.classList.toggle('active');
+    });
+
+    // Scroll-based animations
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!prefersReducedMotion) {
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                } else {
+                    entry.target.classList.remove('animate');
+                }
+            });
+        }, observerOptions);
+
+        // Observe sections and cards
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+
+        document.querySelectorAll('.project-card, .category-card').forEach(card => {
+            observer.observe(card);
+        });
+    }
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href*="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            const url = new URL(href, window.location.origin);
+            if (url.pathname === window.location.pathname && url.hash) {
+                e.preventDefault();
+                const target = document.querySelector(url.hash);
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            }
+        });
+    });
+});
+</script>
+
+<!-- WhatsApp Chat Button -->
+<a href="https://wa.me/918767555945" target="_blank" class="whatsapp-button">
+    <img src="{{ url_for('static', filename='images/wp_logo.png') }}" alt="WhatsApp Chat">
+</a>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const levels = ["beginner", "intermediate", "advanced"];
+
+  document.querySelectorAll(".difficulty").forEach((badge, index) => {
+    badge.classList.remove("high", "beginner", "intermediate", "advanced");
+
+    const level = levels[index % levels.length];
+    badge.classList.add(level);
+    badge.textContent = level.charAt(0).toUpperCase() + level.slice(1);
+  });
+});
+</script>
+
+</body>
+</html>

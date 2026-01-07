@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}About Us - InnovateGuide{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/info-pages.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="info-page">
+  <div class="container">
+    <h1>About InnovateGuide</h1>
+
+    <p class="intro">
+      InnovateGuide is a student-focused platform that enables users to buy, sell,
+      and request custom academic and technical projects with ease.
+    </p>
+
+    <h2>Our Mission</h2>
+    <p>
+      Our mission is to bridge the gap between learning and real-world implementation
+      by providing high-quality, practical projects and guided support.
+    </p>
+
+    <h2>What We Offer</h2>
+    <ul>
+      <li>Verified student & developer projects</li>
+      <li>Custom project development support</li>
+      <li>Mentor-guided solutions</li>
+      <li>Secure transactions and support</li>
+    </ul>
+
+    <h2>Who Can Use InnovateGuide?</h2>
+    <p>
+      InnovateGuide is ideal for students, developers, and learners looking for
+      practical exposure and project-based learning.
+    </p>
+  </div>
+</section>
+{% endblock %}

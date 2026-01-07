@@ -1,0 +1,406 @@
+{% extends "base.html" %}
+
+{% block title %}{{ project.title }} - InnovateGuide{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/project_details.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+
+    <!-- Project Details Display -->
+    <main class="section project-details-container">
+        <div class="container">
+            <!-- Header Section -->
+            <div class="project-header">
+                <div class="header-content">
+                    <h1>{{ project.title }}</h1>
+                    <button class="btn-secondary share-btn-header">
+                        <i class="fas fa-share"></i>
+                        Share
+                    </button>
+                </div>
+            </div>
+
+            <div class="project-layout">
+                <!-- Left Column - Main Content -->
+                <div class="left-column">
+                    <!-- Image Preview Section -->
+                    <div class="content-section">
+                        <h2>Project Images</h2>
+                        <div class="image-preview">
+                            <div class="main-image">
+                                <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&h=270&fit=crop" alt="Main Project Image" id="main-image" width="600" height="270">
+                            </div>
+                            <div class="thumbnails">
+                                <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=80&h=60&fit=crop" alt="Thumbnail 1" class="thumbnail" data-src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&h=270&fit=crop" width="80" height="60">
+                                <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=80&h=60&fit=crop" alt="Thumbnail 2" class="thumbnail" data-src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&h=270&fit=crop" width="80" height="60">
+                                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=80&h=60&fit=crop" alt="Thumbnail 3" class="thumbnail" data-src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=270&fit=crop" width="80" height="60">
+                                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=80&h=60&fit=crop" alt="Thumbnail 4" class="thumbnail" data-src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=270&fit=crop" width="80" height="60">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Description Section -->
+                    <div class="content-section">
+                        <h2>Description</h2>
+                        <div class="description-wrapper">
+                            <div class="description-content">
+                                <p>This comprehensive project explores the fundamentals of web development through the creation of a dynamic e-commerce platform. Students will gain hands-on experience with modern technologies including HTML5, CSS3, JavaScript, and backend frameworks.</p>
+
+                                <p>The implementation covers essential concepts such as responsive design, user authentication, database management, and API integration. Participants will learn industry-standard practices for building scalable and maintainable web applications.</p>
+
+                                <p>Through guided exercises and real-world scenarios, learners will develop problem-solving skills and understand the complete software development lifecycle. The project emphasizes clean code principles, version control with Git, and collaborative development workflows.</p>
+
+                                <p>By the end of this academic endeavor, students will have a portfolio-ready application that demonstrates their proficiency in full-stack development and their ability to create user-centric digital solutions.</p>
+                            </div>
+                            <div class="read-more-toggle">Read More</div>
+                        </div>
+                    </div>
+
+                    <!-- Technologies / Tags -->
+                    <div class="content-section">
+                        <h2>Technologies</h2>
+                        <div class="tech-tags">
+                            {% for tech in project.technology %}
+                            <span class="tech-chip">{{ tech }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Video/Demo URL Section -->
+                    <div class="content-section">
+                        <h2>Demo & Resources</h2>
+                        <div class="resource-links">
+                            <a href="#" class="resource-link demo-link">
+                                <i class="fas fa-play-circle"></i>
+                                View Demo Video
+                            </a>
+                            <a href="#" class="resource-link live-link">
+                                <i class="fas fa-external-link-alt"></i>
+                                Live Project URL
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column - Sticky Purchase Card -->
+                <div class="right-column">
+                    <div class="purchase-card">
+                        <div class="price-display">
+                            <span class="price">₹{{ project.price }}</span>
+                        </div>
+                        <button class="btn-primary buy-now-btn">
+                            <i class="fas fa-shopping-cart"></i>
+                            Buy Now
+                        </button>
+
+                        <div class="project-info-list">
+                            <div class="info-item">
+                                <span class="info-label">Project Type</span>
+                                <span class="info-value">{% if project.price < 40 %}Mini{% else %}Major{% endif %} Project</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Difficulty</span>
+                                <span class="info-value">{{ project.difficulty }}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Domain</span>
+                                <span class="info-value">{{ project.technology[0] if project.technology else 'Web Development' }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Share Modal -->
+    <div id="share-modal" class="share-modal">
+        <div class="share-modal-overlay"></div>
+        <div class="share-modal-content">
+            <div class="share-modal-header">
+                <h3>Share this project</h3>
+                <button class="share-modal-close" aria-label="Close share modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="share-modal-body">
+                <div class="share-option" data-action="copy">
+                    <i class="fas fa-link"></i>
+                    <span>Copy link</span>
+                </div>
+                <div class="share-option" data-action="whatsapp">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>WhatsApp</span>
+                </div>
+                <div class="share-option" data-action="twitter">
+                    <i class="fab fa-twitter"></i>
+                    <span>Twitter (X)</span>
+                </div>
+                <div class="share-option" data-action="facebook">
+                    <i class="fab fa-facebook-f"></i>
+                    <span>Facebook</span>
+                </div>
+                <div class="share-option" data-action="linkedin">
+                    <i class="fab fa-linkedin-in"></i>
+                    <span>LinkedIn</span>
+                </div>
+                <div class="share-option" data-action="email">
+                    <i class="fas fa-envelope"></i>
+                    <span>Email</span>
+                </div>
+            </div>
+            <div id="copy-feedback" class="copy-feedback">Link copied</div>
+        </div>
+    </div>
+
+    <!-- Image Modal -->
+    <div id="image-modal" class="image-modal">
+        <div class="image-modal-overlay"></div>
+        <div class="image-modal-content">
+            <button class="image-modal-close" aria-label="Close image modal">
+                <i class="fas fa-times"></i>
+            </button>
+            <img id="modal-image" src="" alt="Project Image">
+        </div>
+    </div>
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Image preview functionality
+    const mainImage = document.getElementById('main-image');
+    const thumbnails = document.querySelectorAll('.thumbnail');
+
+    thumbnails.forEach(thumbnail => {
+        thumbnail.addEventListener('click', function() {
+            const src = this.getAttribute('data-src');
+            mainImage.src = src;
+            // Remove active class from all thumbnails
+            thumbnails.forEach(t => t.classList.remove('active'));
+            // Add active class to clicked thumbnail
+            this.classList.add('active');
+        });
+    });
+
+    // Set first thumbnail as active initially
+    if (thumbnails.length > 0) {
+        thumbnails[0].classList.add('active');
+    }
+
+    const shareBtn = document.querySelector('.share-btn-header');
+    const shareModal = document.getElementById('share-modal');
+    const shareModalOverlay = document.querySelector('.share-modal-overlay');
+    const shareModalClose = document.querySelector('.share-modal-close');
+    const shareOptions = document.querySelectorAll('.share-option');
+    const copyFeedback = document.getElementById('copy-feedback');
+
+    // Open modal
+    shareBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        shareModal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+    });
+
+    // Close modal functions
+    function closeModal() {
+        shareModal.classList.remove('show');
+        document.body.style.overflow = '';
+        copyFeedback.classList.remove('show');
+    }
+
+    // Close on overlay click
+    shareModalOverlay.addEventListener('click', closeModal);
+
+    // Close on close button click
+    shareModalClose.addEventListener('click', closeModal);
+
+    // Handle share options
+    shareOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            const action = this.dataset.action;
+            const url = window.location.href;
+            const title = document.title;
+
+            switch(action) {
+                case 'copy':
+                    navigator.clipboard.writeText(url).then(() => {
+                        copyFeedback.classList.add('show');
+                        setTimeout(() => {
+                            copyFeedback.classList.remove('show');
+                        }, 2000);
+                    });
+                    break;
+                case 'whatsapp':
+                    window.open(`https://wa.me/?text=${encodeURIComponent(title + ' ' + url)}`, '_blank');
+                    break;
+                case 'twitter':
+                    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`, '_blank');
+                    break;
+                case 'facebook':
+                    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
+                    break;
+                case 'linkedin':
+                    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank');
+                    break;
+                case 'email':
+                    window.open(`mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(url)}`, '_blank');
+                    break;
+            }
+
+            // Close modal after action (except copy)
+            if (action !== 'copy') {
+                closeModal();
+            }
+        });
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && shareModal.classList.contains('show')) {
+            closeModal();
+        }
+    });
+
+    // Read More / Read Less functionality with MutationObserver for dynamic content
+    function initDescription(wrapper) {
+        if (wrapper.dataset.init) return; // Prevent duplicate initialization
+        wrapper.dataset.init = 'true';
+
+        const content = wrapper.querySelector('.description-content');
+        const toggle = wrapper.querySelector('.read-more-toggle');
+
+        if (!content || !toggle) return;
+
+        const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
+        const lineHeight = parseFloat(getComputedStyle(content).lineHeight);
+
+        function getCollapsedHeight() {
+            const isMobile = window.innerWidth < 768;
+            const lines = isMobile ? 3 : 2;
+            return lines * lineHeight;
+        }
+
+        let collapsedHeight = getCollapsedHeight();
+
+        // Set initial collapsed state
+        content.style.maxHeight = collapsedHeight + 'px';
+        content.style.overflow = 'hidden';
+
+        function updateToggle() {
+            collapsedHeight = getCollapsedHeight();
+            const isOverflowing = content.scrollHeight > collapsedHeight;
+            toggle.style.display = isOverflowing ? 'inline-block' : 'none';
+            if (!isOverflowing) {
+                wrapper.classList.remove('expanded');
+                content.style.maxHeight = collapsedHeight + 'px';
+                toggle.textContent = 'Read More';
+            }
+        }
+
+        window.addEventListener('resize', updateToggle);
+
+        updateToggle();
+
+        toggle.addEventListener('click', function() {
+            if (wrapper.classList.contains('expanded')) {
+                content.style.maxHeight = collapsedHeight + 'px';
+                wrapper.classList.remove('expanded');
+                toggle.textContent = 'Read More';
+            } else {
+                content.style.maxHeight = content.scrollHeight + 'px';
+                wrapper.classList.add('expanded');
+                toggle.textContent = 'Read Less';
+            }
+        });
+
+        // Observe changes to the content
+        const observer = new MutationObserver(() => {
+            updateToggle();
+            if (wrapper.classList.contains('expanded')) {
+                content.style.maxHeight = content.scrollHeight + 'px';
+            }
+        });
+        observer.observe(content, { childList: true, subtree: true, characterData: true });
+    }
+
+    // Initialize existing wrappers
+    document.querySelectorAll('.description-wrapper').forEach(initDescription);
+
+    // Observe for new wrappers added dynamically
+    const containerObserver = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            mutation.addedNodes.forEach((node) => {
+                if (node.nodeType === Node.ELEMENT_NODE) {
+                    if (node.classList.contains('description-wrapper')) {
+                        initDescription(node);
+                    }
+                    // Also check descendants
+                    node.querySelectorAll && node.querySelectorAll('.description-wrapper').forEach(initDescription);
+                }
+            });
+        });
+    });
+
+    // Observe the main content area for new description sections
+    const mainContent = document.querySelector('.left-column') || document.querySelector('main');
+    if (mainContent) {
+        containerObserver.observe(mainContent, { childList: true, subtree: true });
+    }
+
+    // Image Modal functionality
+    const imageModal = document.getElementById('image-modal');
+    const modalImage = document.getElementById('modal-image');
+    const imageModalOverlay = document.querySelector('.image-modal-overlay');
+    const imageModalClose = document.querySelector('.image-modal-close');
+
+    // Function to open modal
+    function openImageModal(src) {
+        modalImage.src = src;
+        imageModal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+
+    // Function to close modal
+    function closeImageModal() {
+        imageModal.classList.remove('show');
+        document.body.style.overflow = '';
+    }
+
+    // Open modal on main image click
+    mainImage.addEventListener('click', function() {
+        openImageModal(this.src);
+    });
+
+    // Thumbnail click updates main image
+    thumbnails.forEach(thumbnail => {
+        thumbnail.addEventListener('click', function() {
+            const src = this.getAttribute('data-src');
+            mainImage.src = src;
+            // Remove active class from all thumbnails
+            thumbnails.forEach(t => t.classList.remove('active'));
+            // Add active class to clicked thumbnail
+            this.classList.add('active');
+        });
+    });
+
+    // Close modal on overlay click
+    imageModalOverlay.addEventListener('click', closeImageModal);
+
+    // Close modal on close button click
+    imageModalClose.addEventListener('click', closeImageModal);
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && imageModal.classList.contains('show')) {
+            closeImageModal();
+        }
+    });
+});
+
+</script>
+{% endblock %}
+
+{% endblock %}

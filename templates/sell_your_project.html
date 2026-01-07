@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+
+{% block title %}Sell Your Project - InnovateGuide{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/sell_your_project.css') }}">
+{% endblock %}
+
+{% block body_class %}sell-page{% endblock %}
+
+{% block content %}
+
+    <!-- Sell Project Form -->
+    <section class="section sell-project-section" id="custom-project">
+        <div class="container">
+            
+                    <div class="right-panel">
+                        <h2>Sell Your Project on InnovateGuide</h2>
+                        <p>Share your innovative IT project with the student community and earn from your hard work.</p>
+
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    <div class="flash-message {{ category }}">{{ message }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+
+                        <form action="/sell_your_project" method="POST" class="sell-project-form" enctype="multipart/form-data">
+                    <!-- Student Details Section -->
+                    <div class="form-section">
+                        <h3 class="section-title">Student Details</h3>
+                        <div class="form-row">
+                             <div class="form-group">
+                                 <label for="student_name">Student Name <span class="required">*</span></label>
+                                 <input type="text" id="student_name" name="student_name" required placeholder="Enter your full name">
+                             </div>
+                             <div class="form-group">
+                                 <label for="email">Email Address <span class="required">*</span></label>
+                                 <input type="email" id="email" name="email" required placeholder="Enter your email address">
+                             </div>
+                         </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="mobile">Mobile Number <span class="required">*</span></label>
+                                <input type="tel" id="mobile" name="mobile" required placeholder="Enter your mobile number">
+                            </div>
+                            <div class="form-group">
+                                <label for="college_name">College Name <span class="required">*</span></label>
+                                <input type="text" id="college_name" name="college_name" required placeholder="Enter your college name">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="course">Course <span class="required">*</span></label>
+                                <input type="text" id="course" name="course" required placeholder="e.g., B.Tech Computer Science">
+                            </div>
+                            <div class="form-group">
+                                <label for="year">Year <span class="required">*</span></label>
+                                <select id="year" name="year" required>
+                                    <option value="">Select Year</option>
+                                    <option value="1st Year">1st Year</option>
+                                    <option value="2nd Year">2nd Year</option>
+                                    <option value="3rd Year">3rd Year</option>
+                                    <option value="4th Year">4th Year</option>
+                                    <option value="Final Year">Final Year</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project Details Section -->
+                    <div class="form-section">
+                        <h3 class="section-title">Project Details</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="project_title">Project Title <span class="required">*</span></label>
+                                <input type="text" id="project_title" name="project_title" required placeholder="Enter your project title">
+                            </div>
+                            <div class="form-group">
+                                <label for="developer">Developer <span class="required">*</span></label>
+                                <input type="text" id="developer" name="developer" required placeholder="Enter developer name(s)">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="difficulty">Difficulty Level <span class="required">*</span></label>
+                                <select id="difficulty" name="difficulty" required>
+                                    <option value="">Select Difficulty</option>
+                                    <option value="Beginner">Beginner</option>
+                                    <option value="Intermediate">Intermediate</option>
+                                    <option value="Advanced">Advanced</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="price">Price <span class="required">*</span></label>
+                                <input type="number" id="price" name="price" min="0" step="0.01" required placeholder="Set project price">
+                            </div>
+                            <div class="form-group">
+                                <label for="domain">Domain <span class="required">*</span></label>
+                                <select id="domain" name="domain" required>
+                                    <option value="">Select Domain</option>
+                                    <option value="Web Development">Web Development</option>
+                                    <option value="Mobile App">App Application</option>
+                                    <option value="Desktop Application">Web Application</option>
+                                    <option value="Data Science">Data Science</option>
+                                    <option value="Artificial Intelligence">AIML</option>
+                                    <option value="Machine Learning">Blockchain</option>
+                                    <option value="Cybersecurity">Cybersecurity</option>
+                                    <option value="Cloud Computing">Cloud Computing</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group full-width">
+                                <label for="description">Description <span class="required">*</span></label>
+                                <textarea id="description" name="description" rows="5" required placeholder="Describe your project in detail, including its purpose, features, and objectives"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group full-width">
+                                <label for="technologies">Technologies / Tags <span class="required">*</span></label>
+                                <input type="text" id="technologies" name="technologies" required placeholder="e.g., Python, Django, React, MongoDB">
+                                <small>Separate technologies with commas</small>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group full-width">
+                                <label for="video_url">Video Tutorial URL <span class="required">*</span></label>
+                                <input type="url" id="video_url" name="video_url" placeholder="https://youtube.com/your-demo-video">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="screenshots">Upload Screenshots / Images <span class="required">*</span></label>
+                                <input type="file" id="screenshots" name="screenshots" accept="image/*" multiple>
+                                <small>Upload project screenshots (Multiple images allowed)</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="zip_file">Upload ZIP file <span class="required">*</span></label>
+                                <input type="file" id="zip_file" name="zip_file" accept=".zip,.rar,.7z">
+                                <small>Upload your project source code as ZIP file</small>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group full-width">
+                                <label for="github_url">GitHub Repository URL <span class="required">*</span></label>
+                                <input type="url" id="github_url" name="github_url" placeholder="https://github.com/yourusername/yourproject">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group full-width">
+                                <label for="requirements">Requirements & Dependencies <span class="required">*</span></label>
+                                <textarea id="requirements" name="requirements" rows="3" placeholder="List any software, libraries, or dependencies needed to run your project"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group full-width">
+                                <label for="instructions">Setup Instructions <span class="required">*</span></label>
+                                <textarea id="instructions" name="instructions" rows="4" placeholder="Provide step-by-step instructions for setting up and running your project"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Submit Project</button>
+                            <a href="/" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div> <!-- right-panel -->
+            </div> <!-- sell-project-content -->
+        </div>
+    </section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.querySelector("form");
+  if (!form) return;
+
+  form.querySelectorAll("input, textarea, select").forEach(field => {
+    field.setAttribute("required", "true");
+  });
+});
+</script>
+
+
+{% endblock %}

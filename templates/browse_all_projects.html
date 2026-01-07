@@ -1,0 +1,373 @@
+{% extends "base.html" %}
+
+{% block title %}Browse All Projects - InnovateGuide{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/browse_all_projects.css') }}">
+{% endblock %}
+
+{% block content %}
+
+    <!-- Browse Projects Section -->
+    <section class="section browse-projects-section">
+        <div class="container">
+            <button class="mobile-filter-btn">☰ Filter</button>
+
+            <div class="browse-content">
+                <div class="browse-header">
+                    <h2 class="section-title">Browse All Projects</h2>
+                    <p class="section-subtitle">Find exactly what you need with our smart filters</p>
+                </div>
+
+                <!-- Applied Filters -->
+                <div class="applied-filters" id="applied-filters" style="display: none;">
+                    <span class="applied-label">Applied filters:</span>
+                    <div class="filter-chips" id="filter-chips"></div>
+                </div>
+
+                <div class="filters-container">
+                    <div class="filters-sidebar">
+                            <div class="filters-header">
+                                <h3>Filters</h3>
+                            </div>
+
+                        <details class="filter-group" open>
+                              <summary><h4>Categories</h4></summary>
+                              <div class="filter-options">
+                                  <label><input type="checkbox" name="categories" value="web_development"> <span class="option-text">Web Development</span></label>
+                                  <label><input type="checkbox" name="categories" value="app_development"> <span class="option-text">App Development</span></label>
+                                  <label><input type="checkbox" name="categories" value="web_application"> <span class="option-text">Web Application</span></label>
+                                  <label><input type="checkbox" name="categories" value="data_science"> <span class="option-text">Data Science</span></label>
+                                  <label><input type="checkbox" name="categories" value="aiml"> <span class="option-text">AIML</span></label>
+                                  <label><input type="checkbox" name="categories" value="blockchain"> <span class="option-text">Blockchain</span></label>
+                                  <label><input type="checkbox" name="categories" value="cyber_security"> <span class="option-text">Cyber Security</span></label>
+                                  <label><input type="checkbox" name="categories" value="cloud_computing"> <span class="option-text">Cloud Computing</span></label>
+                              </div>
+                          </details>
+
+                         <details class="filter-group" open>
+                             <summary><h4>Project Type</h4></summary>
+                             <div class="filter-options">
+                                 <select name="project_type" id="project-type-select" class="filter-select">
+                                     <option value="">All</option>
+                                     <option value="mini">Mini</option>
+                                     <option value="major">Major</option>
+                                 </select>
+                             </div>
+                         </details>
+
+                         <details class="filter-group" open>
+                             <summary><h4>Price Range</h4></summary>
+                             <div class="price-options">
+                                 <label><input type="radio" name="price_range" value="under_30"> <span class="option-text">Under ₹30</span></label>
+                                 <label><input type="radio" name="price_range" value="30_60"> <span class="option-text">₹30 – ₹60</span></label>
+                                 <label><input type="radio" name="price_range" value="over_60"> <span class="option-text">Over ₹60</span></label>
+                             </div>
+                         </details>
+
+                         <details class="filter-group">
+                             <summary><h4>Difficulty Level</h4></summary>
+                             <div class="filter-options">
+                                 <label><input type="checkbox" name="difficulty" value="beginner"> <span class="option-text">Beginner</span></label>
+                                 <label><input type="checkbox" name="difficulty" value="intermediate"> <span class="option-text">Intermediate</span></label>
+                                 <label><input type="checkbox" name="difficulty" value="advanced"> <span class="option-text">Advanced</span></label>
+                             </div>
+                         </details>
+                        <div class="apply-filters-container">
+                            <button id="apply-filters" class="btn btn-primary apply-changes-btn" disabled>Apply Changes</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="projects-results">
+                    <div class="results-header">
+                        <p id="results-count">{{ projects|length }} projects found</p>
+                        <div class="sort-options">
+                            <label for="sort-by">Sort by:</label>
+                            <select id="sort-by" name="sort">
+                                <option value="popularity" {% if request.args.get('sort') == 'popularity' %}selected{% endif %}>Popularity</option>
+                                <option value="newest" {% if request.args.get('sort') == 'newest' %}selected{% endif %}>Newest</option>
+                                <option value="price-low" {% if request.args.get('sort') == 'price-low' %}selected{% endif %}>Price: Low to High</option>
+                                <option value="price-high" {% if request.args.get('sort') == 'price-high' %}selected{% endif %}>Price: High to Low</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="projects-grid" id="projects-grid">
+                        {% for project in projects %}
+                        <div class="project-card" data-price="{{ project.price }}" data-technology="{{ project.technology|join(',') }}" data-rating="{{ project.rating }}">
+                            <div class="project-image">
+                                <img src="{{ project.image }}" alt="{{ project.title }}">
+                            </div>
+                            <div class="project-info">
+                                <h3>{{ project.title }}</h3>
+                                <p>{{ project.description }}</p>
+                                <div class="project-tags">
+                                    {% for tech in project.technology %}
+                                    <span class="tag">{{ tech }}</span>
+                                    {% endfor %}
+                                </div>
+                                <div class="project-meta">
+                                    <span class="price">₹{{ project.price }}</span>
+                                    <span class="difficulty {{ project.difficulty|lower }}">{{ project.difficulty }}</span>
+                                </div>
+                                <a href="/project/{{ project.id }}" class="btn btn-small browse-view-btn">View Details</a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="no-results" id="no-results" style="display: none;">
+                        <h3>No projects found</h3>
+                        <p>Try adjusting your filters or search criteria</p>
+                        <button class="btn btn-primary" id="clear-filters-no-results">Clear Filters</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Mobile filter toggle
+  const filterBtn = document.querySelector('.mobile-filter-btn');
+  const filterContainer = document.querySelector('.filters-container');
+
+  if (filterBtn && filterContainer) {
+    filterBtn.addEventListener('click', () => {
+      filterContainer.classList.toggle('show-filters');
+    });
+  }
+
+  // Filter state
+  let currentFilters = {
+    categories: [],
+    project_type: '',
+    price_range: '',
+    difficulty: [],
+    sort: 'popularity'
+  };
+
+  // Initialize from URL params
+  const urlParams = new URLSearchParams(window.location.search);
+  currentFilters.categories = urlParams.getAll('categories');
+  currentFilters.project_type = urlParams.get('project_type') || '';
+  currentFilters.price_range = urlParams.get('price_range') || '';
+  currentFilters.difficulty = urlParams.getAll('difficulty');
+  currentFilters.sort = urlParams.get('sort') || 'popularity';
+
+  // Set initial UI state
+  setInitialUIState();
+
+  // Event listeners
+  document.querySelectorAll('input[name="categories"]').forEach(cb => {
+    cb.addEventListener('change', () => updateFilters('categories', cb.value, cb.checked));
+  });
+
+  document.getElementById('project-type-select').addEventListener('change', (e) => {
+    currentFilters.project_type = e.target.value;
+    updateUIState();
+  });
+
+  document.querySelectorAll('input[name="price_range"]').forEach(rb => {
+    rb.addEventListener('change', () => {
+      currentFilters.price_range = rb.checked ? rb.value : '';
+      updateUIState();
+    });
+  });
+
+  document.querySelectorAll('input[name="difficulty"]').forEach(cb => {
+    cb.addEventListener('change', () => updateFilters('difficulty', cb.value, cb.checked));
+  });
+
+  document.getElementById('sort-by').addEventListener('change', (e) => {
+    currentFilters.sort = e.target.value;
+    applyFilters();
+  });
+  document.getElementById('apply-filters').addEventListener('click', applyFilters);
+
+  // Clear all
+  document.getElementById('clear-filters-no-results').addEventListener('click', clearAllFilters);
+
+  function updateFilters(type, value, checked) {
+    if (checked) {
+      if (!currentFilters[type].includes(value)) {
+        currentFilters[type].push(value);
+      }
+    } else {
+      currentFilters[type] = currentFilters[type].filter(v => v !== value);
+    }
+    updateUIState();
+  }
+
+  function areFiltersActive() {
+    return currentFilters.categories.length > 0 ||
+           currentFilters.project_type !== '' ||
+           currentFilters.price_range !== '' ||
+           currentFilters.difficulty.length > 0;
+  }
+  function updateUIState() {
+    // Categories checkboxes
+    document.querySelectorAll('input[name="categories"]').forEach(cb => {
+      cb.checked = currentFilters.categories.includes(cb.value);
+    });
+
+    // Project type select
+    document.getElementById('project-type-select').value = currentFilters.project_type;
+
+    // Price range radio
+    document.querySelectorAll('input[name="price_range"]').forEach(rb => {
+      rb.checked = currentFilters.price_range === rb.value;
+    });
+
+    // Difficulty checkboxes
+    document.querySelectorAll('input[name="difficulty"]').forEach(cb => {
+      cb.checked = currentFilters.difficulty.includes(cb.value);
+    });
+
+    // Applied filters
+    updateAppliedFilters();
+  }
+
+  function updateAppliedFilters() {
+    const chipsContainer = document.getElementById('filter-chips');
+    const appliedFilters = document.getElementById('applied-filters');
+    chipsContainer.innerHTML = '';
+
+    // Categories chips
+    currentFilters.categories.forEach(cat => {
+      const catName = cat.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+      const chip = createChip(catName, () => updateFilters('categories', cat, false));
+      chipsContainer.appendChild(chip);
+    });
+
+    // Project type chip
+    if (currentFilters.project_type) {
+      const typeName = currentFilters.project_type.charAt(0).toUpperCase() + currentFilters.project_type.slice(1);
+      const chip = createChip(`${typeName} Project`, () => {
+        currentFilters.project_type = '';
+        updateUIState();
+        applyFilters();
+      });
+      chipsContainer.appendChild(chip);
+    }
+
+    // Price range chip
+    if (currentFilters.price_range) {
+      const priceText = currentFilters.price_range === 'under_30' ? 'Under ₹30' :
+                        currentFilters.price_range === '30_60' ? '₹30 – ₹60' : 'Over ₹60';
+      const chip = createChip(priceText, () => {
+        currentFilters.price_range = '';
+        updateUIState();
+        applyFilters();
+      });
+      chipsContainer.appendChild(chip);
+    }
+
+    // Difficulty chips
+    currentFilters.difficulty.forEach(diff => {
+      const diffName = diff.charAt(0).toUpperCase() + diff.slice(1);
+      const chip = createChip(diffName, () => updateFilters('difficulty', diff, false));
+      chipsContainer.appendChild(chip);
+    });
+
+    appliedFilters.style.display = chipsContainer.children.length > 0 ? 'flex' : 'none';
+    const applyBtn = document.getElementById('apply-filters');
+    if (applyBtn) {
+      applyBtn.disabled = !areFiltersActive();
+    }
+  }
+
+  function createChip(text, onRemove) {
+    const chip = document.createElement('span');
+    chip.className = 'filter-chip';
+    chip.innerHTML = `${text} <span class="remove-chip">&times;</span>`;
+    chip.querySelector('.remove-chip').addEventListener('click', onRemove);
+    return chip;
+  }
+
+  function clearAllFilters() {
+    currentFilters = {
+      categories: [],
+      project_type: '',
+      price_range: '',
+      difficulty: [],
+      sort: currentFilters.sort
+    };
+    updateUIState();
+    applyFilters();
+  }
+
+  function setInitialUIState() {
+    updateUIState();
+  }
+
+  async function applyFilters() {
+    const params = new URLSearchParams();
+    currentFilters.categories.forEach(cat => params.append('categories', cat));
+    if (currentFilters.project_type) params.append('project_type', currentFilters.project_type);
+    if (currentFilters.price_range) params.append('price_range', currentFilters.price_range);
+    currentFilters.difficulty.forEach(diff => params.append('difficulty', diff));
+    params.append('sort', currentFilters.sort);
+
+    try {
+      const response = await fetch(`/api/filter_projects?${params}`);
+      const data = await response.json();
+
+      // Update counts
+      Object.keys(data.category_counts).forEach(key => {
+        const countEl = document.querySelector(`.count[data-count="${key}"]`);
+        if (countEl) countEl.textContent = `(${data.category_counts[key]})`;
+      });
+      document.querySelector('.count[data-count="mini"]').textContent = `(${data.project_type_counts.mini})`;
+      document.querySelector('.count[data-count="major"]').textContent = `(${data.project_type_counts.major})`;
+      // Rating counts not needed since radio
+
+      // Update results
+      document.getElementById('results-count').textContent = `${data.total_count} projects found`;
+
+      const grid = document.getElementById('projects-grid');
+      const noResults = document.getElementById('no-results');
+
+      if (data.projects.length === 0) {
+        grid.innerHTML = '';
+        noResults.style.display = 'block';
+      } else {
+        noResults.style.display = 'none';
+        grid.innerHTML = data.projects.map(project => `
+          <div class="project-card" data-price="${project.price}" data-technology="${project.technology.join(',')}" data-rating="${project.rating}">
+            <div class="project-image">
+              <img src="${project.image}" alt="${project.title}">
+            </div>
+            <div class="project-info">
+              <h3>${project.title}</h3>
+              <p>${project.description}</p>
+              <div class="project-tags">
+                ${project.technology.map(tech => `<span class="tag">${tech}</span>`).join('')}
+              </div>
+              <div class="project-meta">
+                <span class="price">₹${project.price}</span>
+                <span class="difficulty ${project.difficulty.toLowerCase()}">${project.difficulty}</span>
+              </div>
+              <a href="/project/${project.id}" class="btn btn-small browse-view-btn">View Details</a>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // Update URL without reload
+      history.replaceState(null, null, `/browse_all_projects?${params}`);
+    } catch (error) {
+      console.error('Error applying filters:', error);
+    }
+  }
+
+
+  // Initial load
+  applyFilters();
+});
+</script>
+{% endblock %}

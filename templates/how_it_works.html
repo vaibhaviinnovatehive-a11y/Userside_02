@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}How It Works - InnovateGuide{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/info-pages.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="info-page">
+  <div class="container">
+    <h1>How InnovateGuide Works</h1>
+
+    <div class="steps">
+      <div class="step">
+        <span>1</span>
+        <h3>Browse or Search Projects</h3>
+        <p>Explore a wide range of student and developer projects.</p>
+      </div>
+
+      <div class="step">
+        <span>2</span>
+        <h3>Buy or Request Custom Project</h3>
+        <p>Purchase ready-made projects or submit requirements for custom development.</p>
+      </div>
+
+      <div class="step">
+        <span>3</span>
+        <h3>Secure Payment</h3>
+        <p>Complete transactions safely using trusted payment gateways.</p>
+      </div>
+
+      <div class="step">
+        <span>4</span>
+        <h3>Get Project & Support</h3>
+        <p>Receive your project with guidance and post-delivery support.</p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

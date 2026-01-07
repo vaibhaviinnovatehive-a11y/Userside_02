@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}FAQ - InnovateGuide{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/info-pages.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="info-page">
+  <div class="container">
+    <h1>Frequently Asked Questions</h1>
+
+    <div class="faq-item">
+      <h3>Is InnovateGuide only for students?</h3>
+      <p>No. InnovateGuide is open to students, developers, and professionals.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Do you provide custom projects?</h3>
+      <p>Yes, users can request custom projects based on their requirements.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Are projects original?</h3>
+      <p>Yes. Sellers are required to upload original and genuine projects.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Is payment secure?</h3>
+      <p>Yes. Payments are handled via secure third-party gateways.</p>
+    </div>
+  </div>
+</section>
+{% endblock %}

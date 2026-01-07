@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Us - InnovateGuide{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/info-pages.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="info-page">
+  <div class="container">
+    <h1>Contact Us</h1>
+
+    <p class="intro">
+      Have questions or need support? We’re here to help.
+    </p>
+
+    <div class="contact-box">
+      <p><strong>Email:</strong> support@innovateguide.com</p>
+      <p><strong>Phone:</strong> +91 87675 55945</p>
+      <p><strong>Support Hours:</strong> Monday – Saturday (10 AM – 7 PM)</p>
+    </div>
+  </div>
+</section>
+{% endblock %}
